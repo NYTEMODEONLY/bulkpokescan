@@ -1,137 +1,155 @@
 # CodeDex Pro
 
 <p align="center">
-  <img src="assets/screenshot.png" alt="CodeDex Pro Screenshot" width="300">
-  <br>
   <strong>The Professional Pokémon TCG Code Scanner</strong><br>
-  Complete your digital collection, lightning fast.
+  Complete your digital collection — lightning fast.
 </p>
 
 <p align="center">
-  <a href="#features">Features</a> •
-  <a href="#installation">Installation</a> •
-  <a href="#usage">Usage</a> •
-  <a href="#faq">FAQ</a> •
-  <a href="#contributing">Contributing</a> •
-  <a href="#license">License</a>
+  <a href="https://codedex-web.vercel.app"><strong>🌐 Try the Web App</strong></a>
+   ·
+  <a href="#desktop-installation"><strong>💻 Install the Desktop App</strong></a>
+   ·
+  <a href="https://nytemode.com"><strong>nytemode.com</strong></a>
+</p>
+
+<p align="center">
+  <a href="#two-ways-to-use-it">Versions</a> ·
+  <a href="#features">Features</a> ·
+  <a href="#desktop-installation">Install</a> ·
+  <a href="#usage">Usage</a> ·
+  <a href="#faq">FAQ</a> ·
+  <a href="#contributing">Contributing</a>
 </p>
 
 ---
 
-## 🚀 About CodeDex Pro
+## Two Ways To Use It
 
-**CodeDex Pro** is a high-performance QR code scanner and manager specifically built for Pokémon TCG collectors. It allows you to scan, organize, and manage hundreds of Pokémon TCG Online redemption codes at lightning speed, massively reducing the time and effort needed to redeem your digital cards.
+CodeDex Pro ships in two flavors that share the same design language and workflow:
 
-### Why CodeDex Pro?
+| | Web | Desktop |
+|---|---|---|
+| **URL / Source** | [codedex-web.vercel.app](https://codedex-web.vercel.app) | This repo |
+| **Install needed?** | No — open the link | Yes — Python + dependencies |
+| **Best for** | Phone or laptop on the go, sharing a link, one-shot use | Power users batching hundreds of cards on a fixed webcam |
+| **Stack** | Next.js + React + `qr-scanner` (browser) | PyQt5 + OpenCV (native) |
+| **Privacy** | 100% local (codes never leave the browser) | 100% local (codes never leave the machine) |
+| **Persistence** | `localStorage` | `~/.codedexpro/session.json` |
 
-While the Pokémon TCG Online app allows you to scan codes, it's a tedious, one-at-a-time process. CodeDex Pro was built by collectors for collectors, addressing the real-world need of scanning and managing large quantities of codes efficiently.
+Pick whichever fits your workflow. The web app needs no installation and works on any modern phone or desktop browser; the desktop app is faster for marathon scanning sessions and runs without a network.
+
+## About
+
+CodeDex Pro is a high-performance QR code scanner for Pokémon TCG redemption codes. Scan, organize, and manage hundreds of codes at lightning speed instead of redeeming them one at a time in the official app.
+
+## Features
+
+- **Ultra-fast continuous scanning** — animated cyan reticle + scan-line sweep
+- **Batch processing** — scan an entire booster box in one session
+- **Pokédex-style numbering** — `#001`, `#002`, … with green/gray dots indicating scan source (camera vs manual)
+- **Format-flexible export** — Numbered list / Raw / Space-separated / Comma-separated
+- **Code Blocks tab** — auto-grouped into chunks of 10 for clean redemption batches
+- **One-click copy + TXT/Markdown export**
+- **Session persistence + Undo (⌘Z)** — never lose your work
+- **Keyboard shortcuts** — ⌘N add, ⌘E export, ⌘, settings, Space scan, ⌘⇧C copy all
+- **Trading-card design language** — creature-ball red + electric yellow palette, energy-type accents
+- **Dark UI optimized for long sessions** — Space Grotesk + Inter Tight + JetBrains Mono typography
+
+## Screenshot
 
 <p align="center">
   <img src="assets/screenshot.png" alt="CodeDex Pro Screenshot" width="800">
 </p>
 
-## ✨ Features
+> Screenshot shows an earlier version. The current redesign matches the [web app](https://codedex-web.vercel.app).
 
-- **Ultra-Fast Scanning**: Scan QR codes from Pokémon TCG products continuously at high speed
-- **Batch Processing**: Scan entire booster boxes or collections in one session
-- **Format Flexibility**: Export your codes in various formats (numbered list, comma-separated, space-separated)
-- **Code Organization**: Automatically organizes codes into manageable blocks of 10
-- **One-Click Copy**: Copy all codes or specific blocks with a single click
-- **File Export**: Save your codes as TXT or Markdown files for easy sharing or archiving
-- **Sleek, Modern UI**: Dark-themed professional interface that's easy on the eyes
-- **Local Processing**: All scanning and processing happens locally - your codes never leave your computer
+## Desktop Installation
 
-## 📋 Requirements
+### Requirements
 
-- Python 3.8 or newer
-- Webcam or camera connected to your computer
+- Python 3.10 or newer (3.13 recommended)
+- A webcam
 - Pokémon TCG code cards
 
-## 🛠️ Installation
+### macOS / Windows / Linux
 
-### Windows, macOS, and Linux
+```bash
+# 1. Clone
+git clone https://github.com/NYTEMODEONLY/codedexpro.git
+cd codedexpro
 
-1. Clone this repository:
-   ```bash
-   git clone https://github.com/NYTEMODEONLY/codedexpro.git
-   cd codedexpro
-   ```
+# 2. Create a virtualenv (recommended)
+python3 -m venv .venv
+source .venv/bin/activate              # Windows: .venv\Scripts\activate
 
-2. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
+# 3. Install dependencies
+pip install -r requirements.txt
 
-3. Run the application:
-   ```bash
-   python codedexpro.py
-   ```
+# 4. Run
+python codedexpro.py
+```
 
-The application will automatically create a `config.json` file with default settings on first run. You can customize settings like camera index, scan intervals, and more by editing this file or through the Settings dialog in the application.
+The first run creates `config.json` with sensible defaults. Customize via the in-app **Settings** dialog (⌘, / Ctrl+,) or by editing the file.
 
-## 📖 Usage
+## Usage
 
-### Basic Usage
+1. **Start the camera** — `Start Camera` button (or `Ctrl+L`)
+2. **Scan codes** — hold cards in front of the lens, 6–12 inches away, with even lighting
+3. **Manage codes** — All Codes tab for the running list, Code Blocks tab for grouped export
+4. **Export** — TXT or Markdown via `Export TXT` / `Export MD`, or copy to clipboard
 
-1. **Start the Application**: Launch CodeDex Pro
-2. **Start Camera**: Click the "Start Camera" button
-3. **Scan Codes**: Hold your Pokémon TCG code cards in front of your camera
-4. **Export Codes**: Copy your codes to clipboard or export to file in your preferred format
+## Project Structure
 
-### Export Options
+```
+src/
+├── main.py              # entry — applies global QSS, opens MainWindow
+├── main_window.py       # MainWindow + behavior + state + persistence
+├── theme.py             # palette, typography, programmatic Pokéball icon
+├── widgets.py           # CameraView, StatusIndicator, Toast, EnergyStrip, …
+├── dialogs.py           # SettingsDialog, AboutDialog, AddCodeDialog
+├── scanner.py           # OpenCV QR detection wrapper
+└── config.py            # JSON-backed settings
+```
 
-CodeDex Pro offers multiple ways to save and share your codes:
+## FAQ
 
-- **Copy to Clipboard**: Quickly copy all codes or specific blocks with dedicated buttons
-- **Export as TXT**: Save codes as plain text files (one code per line) for maximum compatibility
-- **Export as Markdown**: Create beautifully formatted markdown files with proper headings and code formatting
+**Q: Is this an official Pokémon app?**
+A: No, CodeDex Pro is an unofficial, fan-made application. Pokémon is a trademark of Nintendo, Creatures Inc., and GAME FREAK Inc. — this app is unaffiliated.
 
-### Tips for Optimal Scanning
+**Q: Is CodeDex Pro free?**
+A: Yes — free, open source, MIT licensed.
 
-- **Good Lighting**: Ensure adequate lighting for faster and more accurate scanning
-- **Card Positioning**: Hold the card steady with the QR code clearly visible
-- **Distance**: Keep the code 15-30cm (6-12 inches) from the camera
-- **Batch Scanning**: For maximum efficiency, organize cards in stacks for continuous scanning
+**Q: Do my codes get sent anywhere?**
+A: No. Both versions process codes 100% locally. Codes never touch a server.
 
-## ❓ FAQ
+**Q: Can I scan codes that don't have QR codes?**
+A: Yes — use `Add Code` (⌘N) to enter codes manually.
 
-**Q: Is this an official Pokémon app?**  
-A: No, CodeDex Pro is an unofficial, fan-made application designed to help Pokémon TCG collectors.
+**Q: Does the web app work on my iPhone?**
+A: Yes — iOS Safari 15+ supports `getUserMedia()` over HTTPS, which is what Vercel provides automatically.
 
-**Q: Is CodeDex Pro free to use?**  
-A: Yes, CodeDex Pro is completely free and open source.
+## Contributing
 
-**Q: Do my codes get shared or uploaded anywhere?**  
-A: Absolutely not. CodeDex Pro processes all codes locally on your machine. Your valuable codes never leave your computer.
+PRs welcome.
 
-**Q: Can I scan codes that don't have QR codes?**  
-A: Yes! You can manually enter codes using the "Add Code" button.
+1. Fork
+2. Create a feature branch (`git checkout -b feature/your-thing`)
+3. Commit (`git commit -m "Add some thing"`)
+4. Push (`git push origin feature/your-thing`)
+5. Open a PR
 
-**Q: How do I save my scanned codes for later use?**  
-A: CodeDex Pro offers multiple export options including copying to clipboard or saving as TXT/MD files.
+## License
 
-## 🤝 Contributing
+MIT — see [LICENSE](LICENSE).
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+## Acknowledgments
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## 📜 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- Special thanks to all Pokémon TCG collectors who inspired this project
+- Built by collectors, for collectors
 - Pokémon is a trademark of Nintendo, Creatures Inc., and GAME FREAK Inc.
-- This application is not produced by, endorsed by, supported by, or affiliated with Nintendo or The Pokémon Company.
 
 ---
 
 <p align="center">
-  Made with ❤️ by <a href="https://nytemode.com">NYTEMODE</a> for the Pokémon TCG community
-</p> 
+  Made with ❤️ by <a href="https://nytemode.com">NYTEMODE</a>
+</p>

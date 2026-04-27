@@ -519,13 +519,6 @@ class MainWindow(QMainWindow):
         about_link.clicked.connect(self._show_about)
         layout.addWidget(about_link)
 
-        sep2 = QLabel("·")
-        sep2.setObjectName("footerText")
-        layout.addWidget(sep2)
-
-        docs_link = FooterLink("DOCS", url=NYTEMODE_URL)
-        layout.addWidget(docs_link)
-
         sep3 = QLabel("·")
         sep3.setObjectName("footerText")
         layout.addWidget(sep3)

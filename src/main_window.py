@@ -12,6 +12,8 @@ import cv2
 from PyQt5.QtCore import QRectF, QSize, Qt, QTimer, QUrl
 from PyQt5.QtGui import (QBrush, QColor, QDesktopServices, QFont, QIcon,
                           QImage, QKeySequence, QPainter, QPen, QPixmap)
+from PyQt5.QtNetwork import (QNetworkAccessManager, QNetworkReply,
+                              QNetworkRequest)
 from PyQt5.QtWidgets import (QApplication, QComboBox, QFileDialog, QFrame,
                               QHBoxLayout, QLabel, QListWidget,
                               QListWidgetItem, QMainWindow, QMessageBox,
@@ -35,6 +37,12 @@ ALL_CODES_LABEL = "All Codes (Complete Export)"
 BLOCK_SIZE = 10
 NYTEMODE_URL = "https://nytemode.com"
 APP_VERSION = "1.4.2"
+
+# Global tally — same endpoint that the web app uses. Counts only,
+# never the codes themselves. Failures are silent.
+TALLY_URL = "https://codedex-web.vercel.app/api/tally"
+TALLY_POLL_MS = 60_000
+TALLY_USER_AGENT = f"CodeDex-Desktop/{APP_VERSION}"
 
 FORMAT_NUMBERED = "Numbered List"
 FORMAT_RAW = "Raw Codes (one per line)"
@@ -136,10 +144,19 @@ class MainWindow(QMainWindow):
         self.scan_timer = QTimer(self)
         self.scan_timer.timeout.connect(self._auto_scan)
 
+        # Global tally — async HTTP via Qt's network stack
+        self.nam = QNetworkAccessManager(self)
+        self.nam.finished.connect(self._on_tally_reply)
+        self.tally_timer = QTimer(self)
+        self.tally_timer.setInterval(TALLY_POLL_MS)
+        self.tally_timer.timeout.connect(self._fetch_tally)
+
         self._build_ui()
         self._install_shortcuts()
         self._load_session()
         self._refresh_codes_view()
+        self._fetch_tally()
+        self.tally_timer.start()
 
         self.statusBar().showMessage("Ready to scan Pokémon TCG codes")
 
@@ -208,9 +225,19 @@ class MainWindow(QMainWindow):
         layout.addWidget(EnergyStrip())
         layout.addStretch(1)
 
-        # Header count badge (yellow)
+        # Global tally badge (cyan, live counter shared with the web app)
+        self.global_badge = QLabel("— SCANNED")
+        self.global_badge.setObjectName("globalBadge")
+        self.global_badge.setToolTip(
+            "Total codes scanned globally with CodeDex Pro\n"
+            "(web + desktop combined)"
+        )
+        layout.addWidget(self.global_badge, 0, Qt.AlignVCenter)
+
+        # Header count badge (yellow — this user's session)
         self.header_count = QLabel("NO CODES YET")
         self.header_count.setObjectName("headerBadge")
+        self.header_count.setToolTip("Codes captured in this session")
         layout.addWidget(self.header_count, 0, Qt.AlignVCenter)
 
         # Icon buttons
@@ -647,6 +674,7 @@ class MainWindow(QMainWindow):
         self.code_sources[code] = source
         self._refresh_codes_view()
         self._save_session()
+        self._post_tally()
 
         if source == "scan" and self.config.flash:
             self.camera_view.flash_success()
@@ -916,6 +944,42 @@ class MainWindow(QMainWindow):
         widget.style().unpolish(widget)
         widget.style().polish(widget)
         widget.update()
+
+    # ============================================================ tally
+
+    def _fetch_tally(self):
+        request = QNetworkRequest(QUrl(TALLY_URL))
+        request.setHeader(QNetworkRequest.UserAgentHeader, TALLY_USER_AGENT)
+        self.nam.get(request)
+
+    def _post_tally(self):
+        request = QNetworkRequest(QUrl(TALLY_URL))
+        request.setHeader(QNetworkRequest.UserAgentHeader, TALLY_USER_AGENT)
+        request.setHeader(QNetworkRequest.ContentLengthHeader, 0)
+        self.nam.post(request, b"")
+
+    def _on_tally_reply(self, reply: QNetworkReply):
+        try:
+            if reply.error() == QNetworkReply.NoError:
+                raw = bytes(reply.readAll()).decode("utf-8", errors="ignore")
+                try:
+                    payload = json.loads(raw)
+                    total = payload.get("total")
+                    if isinstance(total, int) and total >= 0:
+                        self._set_global_total(total)
+                except (json.JSONDecodeError, ValueError):
+                    pass
+        finally:
+            reply.deleteLater()
+
+    def _set_global_total(self, total: int):
+        if total >= 1000:
+            text = f"{total:,} SCANNED"
+        else:
+            text = f"{total} SCANNED"
+        self.global_badge.setText(text)
+
+    # ============================================================ qt events
 
     def resizeEvent(self, event):
         super().resizeEvent(event)

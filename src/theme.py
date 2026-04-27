@@ -130,6 +130,17 @@ def build_stylesheet() -> str:
         font-weight: 700;
         letter-spacing: 0.08em;
     }}
+    QLabel#globalBadge {{
+        background-color: rgba(90, 200, 250, 0.10);
+        color: {p['scan']};
+        border: 1px solid rgba(90, 200, 250, 0.35);
+        border-radius: 12px;
+        padding: 5px 14px;
+        font-family: {FONT_MONO};
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+    }}
     QPushButton#iconButton {{
         background-color: {p['surface_2']};
         color: {p['text_2']};

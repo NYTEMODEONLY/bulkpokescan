@@ -319,19 +319,6 @@ class AboutDialog(QDialog):
         b.addLayout(grid)
         b.addSpacing(16)
 
-        # ----- learn more line -----
-        learn = QLabel(
-            f'Learn more or grab the latest release at '
-            f'<a href="{NYTEMODE_URL}" '
-            f'style="color: {color("yellow")}; text-decoration: none;">'
-            f'nytemode.com</a>.')
-        learn.setObjectName("aboutBody")
-        learn.setWordWrap(True)
-        learn.setOpenExternalLinks(True)
-        learn.setTextFormat(Qt.RichText)
-        b.addWidget(learn)
-        b.addSpacing(16)
-
         # ----- credits panel -----
         credits_frame = QFrame()
         credits_frame.setObjectName("aboutCredits")
@@ -360,19 +347,13 @@ class AboutDialog(QDialog):
         root.addWidget(body, 1)
 
         # ----- footer -----
-        visit = QPushButton("Visit nytemode.com")
-        visit.setProperty("variant", "ghost")
-        visit.setCursor(Qt.PointingHandCursor)
-        visit.clicked.connect(
-            lambda: QDesktopServices.openUrl(QUrl(NYTEMODE_URL)))
-
         close = QPushButton("Close")
         close.setProperty("variant", "primary")
         close.setCursor(Qt.PointingHandCursor)
         close.setDefault(True)
         close.clicked.connect(self.accept)
 
-        root.addWidget(_modal_footer([visit, close]))
+        root.addWidget(_modal_footer([close]))
 
 
 # =================================================================== add code

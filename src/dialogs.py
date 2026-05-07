@@ -238,10 +238,10 @@ class AboutDialog(QDialog):
         self._build_ui()
 
     def _build_ui(self):
-        self.setWindowTitle("About CodeDex Pro")
+        self.setWindowTitle("About BulkPokeScan")
         self.setMinimumWidth(560)
         root = _modal_chrome(self)
-        root.addWidget(_modal_header("About CodeDex Pro"))
+        root.addWidget(_modal_header("About BulkPokeScan"))
 
         body = QWidget()
         b = QVBoxLayout(body)
@@ -267,10 +267,10 @@ class AboutDialog(QDialog):
         name_row = QHBoxLayout()
         name_row.setContentsMargins(0, 0, 0, 0)
         name_row.setSpacing(0)
-        name = QLabel("CodeDex")
+        name = QLabel("Bulk")
         name.setObjectName("aboutHeroTitle")
         name_row.addWidget(name)
-        pro = QLabel("Pro")
+        pro = QLabel("PokeScan")
         pro.setObjectName("aboutHeroPro")
         name_row.addWidget(pro)
         name_row.addStretch(1)
@@ -330,7 +330,7 @@ class AboutDialog(QDialog):
         credits_layout.addWidget(moon, 0, Qt.AlignTop)
 
         credits_text = QLabel(
-            f'CodeDex Pro is a '
+            f'BulkPokeScan is a '
             f'<a href="{NYTEMODE_URL}" '
             f'style="color: {color("yellow")}; text-decoration: none;">'
             f'nytemode</a> project. Pokémon is a trademark of Nintendo, '

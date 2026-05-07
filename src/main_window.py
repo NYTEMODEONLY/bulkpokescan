@@ -1,4 +1,4 @@
-"""Main application window for CodeDex Pro."""
+"""Main application window for BulkPokeScan."""
 
 from __future__ import annotations
 
@@ -31,7 +31,7 @@ from src.widgets import (CameraView, CodeRow, EmptyStatePanel, EnergyStrip,
                           Toast)
 
 
-SESSION_DIR = Path.home() / ".codedexpro"
+SESSION_DIR = Path.home() / ".bulkpokescan"
 SESSION_FILE = SESSION_DIR / "session.json"
 ALL_CODES_LABEL = "All Codes (Complete Export)"
 BLOCK_SIZE = 10
@@ -40,9 +40,9 @@ APP_VERSION = "1.4.2"
 
 # Global tally — same endpoint that the web app uses. Counts only,
 # never the codes themselves. Failures are silent.
-TALLY_URL = "https://codedex-web.vercel.app/api/tally"
+TALLY_URL = "https://bulkpokescan.vercel.app/api/tally"
 TALLY_POLL_MS = 60_000
-TALLY_USER_AGENT = f"CodeDex-Desktop/{APP_VERSION}"
+TALLY_USER_AGENT = f"BulkPokeScan-Desktop/{APP_VERSION}"
 
 FORMAT_NUMBERED = "Numbered List"
 FORMAT_RAW = "Raw Codes (one per line)"
@@ -126,7 +126,7 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
 
-        self.setWindowTitle("CodeDex Pro")
+        self.setWindowTitle("BulkPokeScan")
         self.setMinimumSize(1180, 760)
         self.setWindowIcon(build_app_icon())
 
@@ -206,10 +206,10 @@ class MainWindow(QMainWindow):
         name_row = QHBoxLayout()
         name_row.setContentsMargins(0, 0, 0, 0)
         name_row.setSpacing(0)
-        name = QLabel("CodeDex")
+        name = QLabel("Bulk")
         name.setObjectName("brandName")
         name_row.addWidget(name)
-        pro = QLabel("Pro")
+        pro = QLabel("PokeScan")
         pro.setObjectName("brandPro")
         name_row.addWidget(pro)
         name_row.addStretch(1)
@@ -229,7 +229,7 @@ class MainWindow(QMainWindow):
         self.global_badge = QLabel("— SCANNED")
         self.global_badge.setObjectName("globalBadge")
         self.global_badge.setToolTip(
-            "Total codes scanned globally with CodeDex Pro\n"
+            "Total codes scanned globally with BulkPokeScan\n"
             "(web + desktop combined)"
         )
         layout.addWidget(self.global_badge, 0, Qt.AlignVCenter)
@@ -244,7 +244,7 @@ class MainWindow(QMainWindow):
         self.about_button = QPushButton()
         self.about_button.setObjectName("iconButton")
         self.about_button.setIcon(_icon_about(16))
-        self.about_button.setToolTip("About CodeDex Pro")
+        self.about_button.setToolTip("About BulkPokeScan")
         self.about_button.setCursor(Qt.PointingHandCursor)
         self.about_button.clicked.connect(self._show_about)
         layout.addWidget(self.about_button, 0, Qt.AlignVCenter)
@@ -835,7 +835,7 @@ class MainWindow(QMainWindow):
         if ext == "md":
             n = len(self.codes_found)
             buf = ["# Pokémon TCG Codes\n",
-                    f"_Exported from CodeDex Pro · {n} codes_\n\n"]
+                    f"_Exported from BulkPokeScan · {n} codes_\n\n"]
             if fmt == FORMAT_NUMBERED:
                 buf.append("## Numbered List\n\n")
                 for i, c in enumerate(self.codes_found, 1):

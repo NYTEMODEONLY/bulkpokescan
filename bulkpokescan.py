@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 
 """
-CodeDex Pro - Pokémon TCG Code Scanner and Manager
+BulkPokeScan - Pokémon TCG Code Scanner and Manager
 
-This script launches the CodeDex Pro application, which allows users to rapidly scan
+This script launches the BulkPokeScan application, which allows users to rapidly scan
 Pokémon TCG QR code redemption cards with their webcam and efficiently manage
 large quantities of codes for redemption.
 """

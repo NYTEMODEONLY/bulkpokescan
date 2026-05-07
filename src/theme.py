@@ -1,6 +1,6 @@
 """Visual theme — palette, typography, global stylesheet, programmatic icon.
 
-Ported from the CodeDex Pro Redesign design package
+Ported from the BulkPokeScan Redesign design package
 (trading-card inspired, creature-ball red + electric yellow,
 8 energy-type accent colors, JetBrains Mono codes).
 """

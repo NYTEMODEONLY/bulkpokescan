@@ -10,7 +10,7 @@ from src.theme import build_app_icon, build_stylesheet
 
 def main():
     app = QApplication(sys.argv)
-    app.setApplicationName("CodeDex Pro")
+    app.setApplicationName("BulkPokeScan")
     app.setOrganizationName("NYTEMODE")
     app.setWindowIcon(build_app_icon())
     app.setStyleSheet(build_stylesheet())

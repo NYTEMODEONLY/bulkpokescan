@@ -270,6 +270,7 @@ struct ScannerView: View {
                 .background(RoundedRectangle(cornerRadius: 10).fill(Palette.surface2.opacity(0.85)))
                 .overlay(RoundedRectangle(cornerRadius: 10).stroke(Palette.border, lineWidth: 1))
         }
+        .accessibilityLabel(camera.torchOn ? "Turn torch off" : "Turn torch on")
     }
 
     private func triggerFlash() {

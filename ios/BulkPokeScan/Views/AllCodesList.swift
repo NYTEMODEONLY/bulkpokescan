@@ -33,6 +33,7 @@ struct AllCodesList: View {
 
     private func row(idx: Int, code: ScannedCode) -> some View {
         let energy = EnergyType.forCode(code.value)
+        let sourceLabel = code.source == .manual ? "manually entered" : "captured by camera"
         return HStack(spacing: 12) {
             Text(String(format: "#%03d", idx + 1))
                 .font(Typography.mono(12, weight: .bold))
@@ -41,6 +42,7 @@ struct AllCodesList: View {
             Circle()
                 .fill(energy.color)
                 .frame(width: 8, height: 8)
+                .accessibilityHidden(true)
             Text(code.value)
                 .font(Typography.mono(13, weight: .regular))
                 .foregroundStyle(Palette.text)
@@ -51,10 +53,15 @@ struct AllCodesList: View {
                 Image(systemName: "square.and.pencil")
                     .font(.system(size: 11))
                     .foregroundStyle(Palette.textMuted)
+                    .accessibilityHidden(true)
             }
         }
         .contentShape(Rectangle())
         .onTapGesture { copy(code.value) }
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel("Code \(idx + 1), \(code.value), \(sourceLabel)")
+        .accessibilityHint("Double-tap to copy")
+        .accessibilityAddTraits(.isButton)
     }
 
     private var emptyState: some View {

@@ -52,18 +52,19 @@
     <key>UIUserInterfaceStyle</key>
     <string>Dark</string>
 
-    <!-- Once you drop .ttf files into Resources/Fonts/, list them here.
-         These are commented out by default so the app builds without the font files. -->
-    <!--
     <key>UIAppFonts</key>
     <array>
-        <string>Fonts/SpaceGrotesk-Bold.ttf</string>
-        <string>Fonts/SpaceGrotesk-Medium.ttf</string>
-        <string>Fonts/InterTight-Regular.ttf</string>
-        <string>Fonts/InterTight-SemiBold.ttf</string>
-        <string>Fonts/JetBrainsMono-Regular.ttf</string>
-        <string>Fonts/JetBrainsMono-Bold.ttf</string>
+        <string>SpaceGrotesk-Regular.ttf</string>
+        <string>SpaceGrotesk-Medium.ttf</string>
+        <string>SpaceGrotesk-Bold.ttf</string>
+        <string>InterTight-Regular.ttf</string>
+        <string>InterTight-Medium.ttf</string>
+        <string>InterTight-SemiBold.ttf</string>
+        <string>InterTight-Bold.ttf</string>
+        <string>JetBrainsMono-Regular.ttf</string>
+        <string>JetBrainsMono-Medium.ttf</string>
+        <string>JetBrainsMono-SemiBold.ttf</string>
+        <string>JetBrainsMono-Bold.ttf</string>
     </array>
-    -->
 </dict>
 </plist>

@@ -20,6 +20,7 @@ struct Reticle: View {
                 }
             }
         }
+        .accessibilityHidden(true)
     }
 
     /// Four L-shaped corner marks instead of a full rectangle — cleaner look.

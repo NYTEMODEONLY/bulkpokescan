@@ -81,6 +81,7 @@ struct PokeballIcon: View {
                            with: .color(.white))
         }
         .aspectRatio(1, contentMode: .fit)
+        .accessibilityHidden(true)
     }
 }
 

@@ -30,6 +30,8 @@ struct StatusPulse: View {
                 pulse = true
             }
         }
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel("Camera \(label.lowercased())")
     }
 
     private var color: Color {

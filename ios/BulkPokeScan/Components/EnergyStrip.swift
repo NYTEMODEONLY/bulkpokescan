@@ -14,6 +14,7 @@ struct EnergyStrip: View {
                     .rotationEffect(.degrees(45))
             }
         }
+        .accessibilityHidden(true)
     }
 }
 

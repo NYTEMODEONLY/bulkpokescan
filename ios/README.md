@@ -1,13 +1,13 @@
 # BulkPokeScan — iOS
 
-Native iPhone port of the BulkPokeScan desktop scanner. Same brand, same flow, same global tally — built with SwiftUI, AVFoundation, and the same `https://bulkpokescan.vercel.app/api/tally` backend used by the web and desktop apps.
+Native iPhone port of the BulkPokeScan desktop scanner. Same brand, same flow, same global tally — built with SwiftUI, AVFoundation, and the same `https://bulkpokescan.app/api/tally` backend used by the web and desktop apps.
 
 ## Status
 
 **Running on device** as of 2026-05-03. Personal Team-signed builds installing to `Lobo's 15` (iPhone 15 Pro Max). All v0 features wired up:
 
 - Camera scanning via `AVCaptureMetadataOutput` (no OpenCV needed on iOS)
-- Card-based scanner UI matching the [web mobile app](https://bulkpokescan.vercel.app)
+- Card-based scanner UI matching the [web mobile app](https://bulkpokescan.app)
 - Tab navigation: Scanner / Codes
 - Manual entry, Code Blocks (groups of 10), Share Sheet export
 - Session persistence via UserDefaults
@@ -214,8 +214,8 @@ The Swift code falls back gracefully to system fonts if these aren't present, bu
 | Desktop scanner pipeline | [`../src/scanner.py`](../src/scanner.py) |
 | Desktop session + tally wiring | [`../src/main_window.py`](../src/main_window.py) |
 | Energy-pip hash scheme | [`../src/widgets.py`](../src/widgets.py) |
-| Web mobile design reference | [`https://bulkpokescan.vercel.app`](https://bulkpokescan.vercel.app) |
-| Tally API | `https://bulkpokescan.vercel.app/api/tally` (shared web + desktop + iOS) |
+| Web mobile design reference | [`https://bulkpokescan.app`](https://bulkpokescan.app) |
+| Tally API | `https://bulkpokescan.app/api/tally` (shared web + desktop + iOS) |
 | Original iOS port plan | `~/.claude/plans/based-off-of-this-elegant-rabbit.md` |
 
 ## Troubleshooting

@@ -12,7 +12,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 | iOS | `ios/BulkPokeScan/` (this repo) | Swift 5.9 · SwiftUI · AVFoundation |
 | Web | separate Vercel repo | Next.js — also hosts the shared tally API |
 
-The repo working directory is still named `pokescanbot/` for historical reasons; the product is BulkPokeScan. External infra (Vercel project, GitHub remote, tally URL, Redis keys) all use the `bulkpokescan` namespace — see "Don't break this" below.
+The repo working directory is still named `pokescanbot/` for historical reasons; the product is BulkPokeScan. External infra (custom domain `bulkpokescan.app`, Vercel project, GitHub remotes, Redis keys) all use the `bulkpokescan` namespace — see "Don't break this" below.
 
 ## Common commands
 
@@ -56,7 +56,7 @@ Device build (`Lobo's 15`, UDID `00008130-001815403A92001C`) is easier from Xcod
 
 ### The shared tally is the cross-flavor link
 
-All three flavors POST to and GET from `https://bulkpokescan.vercel.app/api/tally` to drive a single global "cards scanned worldwide" counter. This URL is baked into:
+All three flavors POST to and GET from `https://bulkpokescan.app/api/tally` to drive a single global "cards scanned worldwide" counter. This URL is baked into:
 
 - `ios/BulkPokeScan/Models/AppConfig.swift:21`
 - `src/main_window.py` (`TALLY_URL`)
@@ -82,7 +82,7 @@ All three flavors POST to and GET from `https://bulkpokescan.vercel.app/api/tall
 
 ## Don't break this
 
-- **`bulkpokescan.vercel.app/api/tally` URL becomes load-bearing the moment iOS ships.** As of writing, iOS hasn't shipped to TestFlight or the App Store, so the URL can still be changed cheaply. Once an App Store build is live, every shipped binary hits this exact URL forever — any future migration requires shipping an iOS update first AND accepting stale counters on old versions. Detailed migration notes in `docs/web-to-landing-page.md`.
+- **`bulkpokescan.app/api/tally` URL becomes load-bearing the moment iOS ships.** As of writing, iOS hasn't shipped to TestFlight or the App Store, so the URL can still be changed cheaply. Once an App Store build is live, every shipped binary hits this exact URL forever — any future migration requires shipping an iOS update first AND accepting stale counters on old versions. The custom domain (registered through Vercel) is the canonical home; `bulkpokescan.vercel.app` 308-redirects to it. Detailed migration notes in `docs/web-to-landing-page.md`.
 - **`ios/project.yml` is the source of truth** for the Xcode project — `BulkPokeScan.xcodeproj` is generated. Edits to the .xcodeproj will be wiped on next `xcodegen generate`.
 - **Don't hardcode `DEVELOPMENT_TEAM`** that doesn't match the user's active Personal Team. Free Personal Teams have a team ID that often differs from the keychain cert's `Apple Development: <email> (TEAM_ID)`, and hardcoding causes `error: No Account for Team "X"` even when the account is correctly signed in. The current `project.yml` pins `Q2QT3TXJE4` for the paid team, but if anyone else builds it they'll need to clear that line and let Xcode write the team ID via Signing & Capabilities → Team dropdown.
 - **Bundle IDs:** dev = `com.nytemode.bulkpokescan.dev` (Personal Team, 7-day re-sign rhythm), prod = `com.nytemode.bulkpokescan` (paid Apple Developer team, approved 2026-05-06). The `.dev` suffix is intentional — keeps the two Xcode signing profiles from colliding.

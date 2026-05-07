@@ -4,7 +4,7 @@
 
 ## Goal
 
-Convert `bulkpokescan.vercel.app` from a full-featured web scanner into a marketing
+Convert `bulkpokescan.app` from a full-featured web scanner into a marketing
 landing page for the iOS app. The Vercel project keeps running, but the homepage
 becomes "Download on the App Store" + FAQ + privacy policy + screenshots.
 
@@ -13,7 +13,7 @@ becomes "Download on the App Store" + FAQ + privacy policy + screenshots.
 - The Vercel project hosts **two things**: the web UI (`/`) AND the tally API
   (`/api/tally`). They're siblings in one deployment. Killing the UI does NOT
   require killing the API.
-- The iOS app has `https://bulkpokescan.vercel.app/api/tally` baked into
+- The iOS app has `https://bulkpokescan.app/api/tally` baked into
   `ios/BulkPokeScan/Models/AppConfig.swift:21`. Every shipped App Store build
   will hit that URL forever — so the endpoint **must stay alive at that exact
   path** as long as any users have older app versions installed.
@@ -24,7 +24,7 @@ becomes "Download on the App Store" + FAQ + privacy policy + screenshots.
 
 - **Do NOT change the path** `/api/tally` on the Vercel project. It's the
   single source of truth for the global counter.
-- **Do NOT change the domain** `bulkpokescan.vercel.app` unless you also ship
+- **Do NOT change the domain** `bulkpokescan.app` unless you also ship
   an iOS update with the new URL AND are willing to accept that users on old
   versions will see a stale counter forever.
   - If you ever DO want to migrate the API to your own domain (e.g.
@@ -43,7 +43,7 @@ becomes "Download on the App Store" + FAQ + privacy policy + screenshots.
    - Live global tally (reuse the same `/api/tally` GET — already public)
 2. **Keep `/api/tally` route untouched.** Verify after deploy:
    ```
-   curl https://bulkpokescan.vercel.app/api/tally
+   curl https://bulkpokescan.app/api/tally
    ```
    should still return `{ "total": <n> }`.
 3. **Add iOS smart-app-banner** to landing page `<head>`:
@@ -54,10 +54,10 @@ becomes "Download on the App Store" + FAQ + privacy policy + screenshots.
 4. **Wire up Universal Links** so links to the landing page open the installed
    app directly:
    - Add `apple-app-site-association` JSON to the Vercel project at:
-     `https://bulkpokescan.vercel.app/.well-known/apple-app-site-association`
+     `https://bulkpokescan.app/.well-known/apple-app-site-association`
      (must be served as `application/json`, no `.json` extension)
    - Add `Associated Domains` capability in `ios/project.yml` →
-     `applinks:bulkpokescan.vercel.app`
+     `applinks:bulkpokescan.app`
    - Re-run `xcodegen generate`, ship update.
 5. **Privacy policy URL** — App Store Connect will ask for one. Use the
    landing page URL, not a bundled in-app page (so it can be updated without

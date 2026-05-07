@@ -18,5 +18,5 @@ enum AppInfo {
     static let appVersion = (Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String) ?? "1.0.0"
     static let buildNumber = (Bundle.main.infoDictionary?["CFBundleVersion"] as? String) ?? "1"
     static let userAgent = "BulkPokeScan-iOS/\(appVersion)"
-    static let tallyURL = URL(string: "https://bulkpokescan.vercel.app/api/tally")!
+    static let tallyURL = URL(string: "https://bulkpokescan.app/api/tally")!
 }

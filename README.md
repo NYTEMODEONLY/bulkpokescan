@@ -6,7 +6,7 @@
 </p>
 
 <p align="center">
-  <a href="https://bulkpokescan.vercel.app"><strong>🌐 Try the Web App</strong></a>
+  <a href="https://bulkpokescan.app"><strong>🌐 Try the Web App</strong></a>
    ·
   <a href="#desktop-installation"><strong>💻 Install the Desktop App</strong></a>
    ·
@@ -32,7 +32,7 @@ BulkPokeScan ships in three flavors that share the same design language and work
 
 | | Web | Desktop | iOS |
 |---|---|---|---|
-| **URL / Source** | [bulkpokescan.vercel.app](https://bulkpokescan.vercel.app) | This repo (`src/`) | This repo (`ios/`) |
+| **URL / Source** | [bulkpokescan.app](https://bulkpokescan.app) | This repo (`src/`) | This repo (`ios/`) |
 | **Install needed?** | No — open the link | Yes — Python + dependencies | Yes — Xcode + Apple ID |
 | **Best for** | Phone or laptop on the go, sharing a link, one-shot use | Power users batching hundreds of cards on a fixed webcam | Phone-native scanning with haptics, torch, and Share Sheet export |
 | **Stack** | Next.js + React + `qr-scanner` (browser) | PyQt5 + OpenCV (native) | SwiftUI + AVFoundation (native) |
@@ -65,7 +65,7 @@ BulkPokeScan is a high-performance QR code scanner for Pokémon TCG redemption c
   <img src="assets/screenshot.png" alt="BulkPokeScan Screenshot" width="800">
 </p>
 
-> Screenshot shows an earlier version. The current redesign matches the [web app](https://bulkpokescan.vercel.app).
+> Screenshot shows an earlier version. The current redesign matches the [web app](https://bulkpokescan.app).
 
 ## Desktop Installation
 

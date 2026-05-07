@@ -7,6 +7,10 @@ options:
   createIntermediateGroups: true
   generateEmptyDirectories: false
 
+configs:
+  Debug: debug
+  Release: release
+
 settings:
   base:
     SWIFT_VERSION: "5.9"
@@ -28,14 +32,19 @@ targets:
       - path: BulkPokeScan/PrivacyInfo.xcprivacy
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.nytemode.bulkpokescan.dev
         INFOPLIST_FILE: BulkPokeScan/Info.plist
         TARGETED_DEVICE_FAMILY: "1"
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
-        CODE_SIGN_IDENTITY: "Apple Development"
         CODE_SIGN_STYLE: Automatic
         DEVELOPMENT_TEAM: Q2QT3TXJE4
         ENABLE_PREVIEWS: YES
         SWIFT_EMIT_LOC_STRINGS: YES
         GENERATE_INFOPLIST_FILE: NO
+      configs:
+        Debug:
+          PRODUCT_BUNDLE_IDENTIFIER: com.nytemode.bulkpokescan.dev
+          CODE_SIGN_IDENTITY: "Apple Development"
+        Release:
+          PRODUCT_BUNDLE_IDENTIFIER: com.nytemode.bulkpokescan
+          CODE_SIGN_IDENTITY: "Apple Distribution"

@@ -40,7 +40,7 @@ APP_VERSION = "1.4.2"
 
 # Global tally — same endpoint that the web app uses. Counts only,
 # never the codes themselves. Failures are silent.
-TALLY_URL = "https://bulkpokescan.vercel.app/api/tally"
+TALLY_URL = "https://bulkpokescan.app/api/tally"
 TALLY_POLL_MS = 60_000
 TALLY_USER_AGENT = f"BulkPokeScan-Desktop/{APP_VERSION}"
 

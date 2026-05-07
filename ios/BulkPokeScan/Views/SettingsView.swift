@@ -49,6 +49,40 @@ struct SettingsView: View {
                 } footer: {
                     Text("Currently \(session.codes.count) code\(session.codes.count == 1 ? "" : "s") in this session.")
                 }
+
+                Section {
+                    Link(destination: URL(string: "https://bulkpokescan.app/privacy")!) {
+                        HStack {
+                            Text("Privacy Policy").foregroundStyle(Palette.text)
+                            Spacer()
+                            Image(systemName: "arrow.up.right.square")
+                                .font(.system(size: 12))
+                                .foregroundStyle(Palette.textMuted)
+                        }
+                    }
+                    Link(destination: URL(string: "https://bulkpokescan.app/terms")!) {
+                        HStack {
+                            Text("Terms of Use").foregroundStyle(Palette.text)
+                            Spacer()
+                            Image(systemName: "arrow.up.right.square")
+                                .font(.system(size: 12))
+                                .foregroundStyle(Palette.textMuted)
+                        }
+                    }
+                    Link(destination: URL(string: "https://bulkpokescan.app/support")!) {
+                        HStack {
+                            Text("Support").foregroundStyle(Palette.text)
+                            Spacer()
+                            Image(systemName: "arrow.up.right.square")
+                                .font(.system(size: 12))
+                                .foregroundStyle(Palette.textMuted)
+                        }
+                    }
+                } header: {
+                    Text("LEGAL").font(Typography.mono(10, weight: .bold)).tracking(1.4).foregroundStyle(Palette.yellow)
+                } footer: {
+                    Text("Pokémon is a trademark of Nintendo, Creatures Inc., and GAME FREAK Inc. — this app is unofficial and unaffiliated.")
+                }
             }
             .scrollContentBackground(.hidden)
             .background(Palette.bg)

@@ -9,7 +9,7 @@ from PyQt5.QtWidgets import (QFrame, QGraphicsOpacityEffect, QHBoxLayout,
                               QLabel, QPushButton, QSizePolicy, QStyle,
                               QVBoxLayout, QWidget)
 
-from src.theme import PALETTE, color, paint_pokeball, FONT_BODY, FONT_DISPLAY, FONT_MONO
+from src.theme import PALETTE, color, paint_card_qr, FONT_BODY, FONT_DISPLAY, FONT_MONO
 
 
 # ============================================================ section title
@@ -281,7 +281,7 @@ class CameraView(QWidget):
         ball = QRectF(stage.center().x() - size / 2,
                        stage.top() + stage.height() * 0.18,
                        size, size)
-        paint_pokeball(painter, ball, opacity=0.20)
+        paint_card_qr(painter, ball, opacity=0.20)
 
         title_font = QFont()
         title_font.setFamily("SF Pro Display")
@@ -309,7 +309,7 @@ class CameraView(QWidget):
         rect = QRectF(stage.center().x() - size / 2,
                        stage.center().y() - size / 2,
                        size, size)
-        paint_pokeball(painter, rect, opacity=0.55)
+        paint_card_qr(painter, rect, opacity=0.55)
         font = QFont()
         font.setFamily("SF Pro Text")
         font.setPointSize(11)
@@ -517,7 +517,7 @@ class EmptyStatePanel(QFrame):
         pix = QPixmap(size, size)
         pix.fill(Qt.transparent)
         painter = QPainter(pix)
-        paint_pokeball(painter, QRectF(0, 0, size, size), opacity=0.35)
+        paint_card_qr(painter, QRectF(0, 0, size, size), opacity=0.35)
         painter.end()
         return pix
 

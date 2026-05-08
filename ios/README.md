@@ -57,16 +57,16 @@ ios/
     │   └── AppConfig.swift    UserDefaults keys + AppInfo (version, tally URL)
     ├── Views/
     │   ├── RootView.swift     TabView + top bar + footer + shake handler
-    │   ├── ScannerView.swift  Card with camera/Pokéball/buttons/tip strip
+    │   ├── ScannerView.swift  Card with camera/brand mark/buttons/tip strip
     │   ├── CodesView.swift    Card with All Codes / Code Blocks segmented
     │   ├── AllCodesList.swift numbered #001… list, swipe-delete, tap-copy
     │   ├── CodeBlocksList.swift  sectioned by 10 with Copy block button
     │   ├── AddCodeSheet.swift manual-entry modal
     │   ├── ExportSheet.swift  format picker → ShareLink
     │   ├── SettingsView.swift haptics, cooldown, torch default, reset
-    │   └── AboutView.swift    Pokéball + EnergyStrip + version + credit
+    │   └── AboutView.swift    Brand mark + EnergyStrip + version + credit
     ├── Components/
-    │   ├── PokeballIcon.swift programmatic SwiftUI Canvas
+    │   ├── CardQRIcon.swift   programmatic SwiftUI Canvas brand mark (card + QR)
     │   ├── EnergyStrip.swift  8 rotated diamonds in energy-type colors
     │   ├── Reticle.swift      pulsing corner-mark capture frame
     │   ├── ScanLine.swift     vertical sweeping cyan line

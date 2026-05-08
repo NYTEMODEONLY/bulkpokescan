@@ -8,7 +8,7 @@ struct AboutView: View {
         NavigationStack {
             ScrollView {
                 VStack(spacing: 18) {
-                    PokeballIcon()
+                    CardQRIcon()
                         .frame(width: 96, height: 96)
                         .padding(.top, 28)
 

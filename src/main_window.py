@@ -25,7 +25,7 @@ from src.config import Config
 from src.dialogs import AboutDialog, AddCodeDialog, SettingsDialog
 from src.scanner import QRScanner
 from src.theme import (FONT_BODY, FONT_DISPLAY, FONT_MONO, build_app_icon,
-                        color, paint_pokeball)
+                        color, paint_card_qr)
 from src.widgets import (CameraView, CodeRow, EmptyStatePanel, EnergyStrip,
                           FooterLink, Moon, SectionTitle, StatusIndicator,
                           Toast)
@@ -117,7 +117,7 @@ def _icon_brand_mark(size: int = 42) -> QPixmap:
     pix = QPixmap(size, size)
     pix.fill(Qt.transparent)
     painter = QPainter(pix)
-    paint_pokeball(painter, QRectF(0, 0, size, size))
+    paint_card_qr(painter, QRectF(0, 0, size, size))
     painter.end()
     return pix
 

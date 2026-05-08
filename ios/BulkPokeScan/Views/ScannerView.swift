@@ -157,7 +157,7 @@ struct ScannerView: View {
 
     private var cameraOff: some View {
         VStack(spacing: 14) {
-            PokeballIcon(monochrome: false)
+            CardQRIcon(monochrome: false)
                 .frame(width: 130, height: 130)
                 .opacity(0.32)
                 .padding(.top, 30)

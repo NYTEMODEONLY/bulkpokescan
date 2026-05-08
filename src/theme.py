@@ -616,85 +616,95 @@ def build_stylesheet() -> str:
     """
 
 
-# --------------------------------------------------------- Pokéball drawing
+# --------------------------------------------------------- Card+QR brand mark
 
-def paint_pokeball(painter: QPainter, rect: QRectF,
-                    opacity: float = 1.0, monochrome: bool = False) -> None:
-    """Draw a Pokéball into ``rect`` on an existing painter.
-    Matches the design's `.ball` CSS — radial highlight + flat top/bottom."""
+# 7×7 finder-style grid — recognizable as "QR-like" at any size, readable
+# as a logo even at 32px where a real QR would just be noise.
+_QR_GRID = (
+    (1, 1, 1, 0, 1, 1, 1),
+    (1, 0, 1, 0, 0, 0, 1),
+    (1, 1, 1, 1, 1, 0, 1),
+    (0, 0, 1, 1, 0, 1, 0),
+    (1, 1, 1, 0, 1, 1, 1),
+    (1, 0, 0, 1, 0, 0, 1),
+    (1, 1, 1, 0, 1, 1, 1),
+)
+
+
+def paint_card_qr(painter: QPainter, rect: QRectF,
+                  opacity: float = 1.0, monochrome: bool = False) -> None:
+    """Draw the BulkPokeScan brand mark (trading card with QR) into ``rect``.
+
+    Mirrors `CardQRIcon` (iOS) and `<CardQR />` (web). The card is portrait
+    (≈3:4) inside a 1:1 frame, with a yellow→red gradient interior, a white
+    QR plate in the upper portion, and a yellow energy bar near the bottom.
+    """
     painter.save()
     painter.setOpacity(opacity)
     painter.setRenderHint(QPainter.Antialiasing)
 
-    size = min(rect.width(), rect.height())
+    dim = min(rect.width(), rect.height())
     cx = rect.x() + rect.width() / 2
     cy = rect.y() + rect.height() / 2
-    pad = size * 0.06
-    ball = QRectF(cx - size / 2 + pad, cy - size / 2 + pad,
-                   size - 2 * pad, size - 2 * pad)
 
-    line_color = QColor(PALETTE["bg"])
+    card_w = dim * 0.78
+    card_h = dim * 0.96
+    card = QRectF(cx - card_w / 2, cy - card_h / 2, card_w, card_h)
+    card_corner = card_w * 0.12
 
+    ink = QColor(0x10, 0x10, 0x18) if not monochrome else QColor(0x33, 0x33, 0x33)
+
+    # White card border
+    painter.setPen(Qt.NoPen)
+    painter.setBrush(QColor("#FFFFFF"))
+    painter.drawRoundedRect(card, card_corner, card_corner)
+
+    # Gradient interior
+    inset = card_w * 0.045
+    inner = card.adjusted(inset, inset, -inset, -inset)
+    inner_corner = max(0.0, card_corner - inset)
     if monochrome:
-        painter.setPen(Qt.NoPen)
         painter.setBrush(QColor(PALETTE["text_muted"]))
-        painter.drawEllipse(ball)
     else:
-        # Top half — flat creature red with subtle highlight
-        painter.setPen(Qt.NoPen)
-        painter.setBrush(QColor(PALETTE["red"]))
-        painter.drawPie(ball, 0 * 16, 180 * 16)
+        gradient = QLinearGradient(inner.center().x(), inner.top(),
+                                   inner.center().x(), inner.bottom())
+        gradient.setColorAt(0.0, QColor(PALETTE["yellow"]))
+        gradient.setColorAt(1.0, QColor(PALETTE["red"]))
+        painter.setBrush(QBrush(gradient))
+    painter.drawRoundedRect(inner, inner_corner, inner_corner)
 
-        # Bottom half — off-white
-        painter.setBrush(QColor("#FFFFFF"))
-        painter.drawPie(ball, 180 * 16, 180 * 16)
-
-        # Highlight on the upper-left of the red dome
-        glint = QRadialGradient(
-            ball.x() + ball.width() * 0.30,
-            ball.y() + ball.height() * 0.28,
-            ball.width() * 0.38)
-        glint.setColorAt(0, QColor(255, 255, 255, 140))
-        glint.setColorAt(1, QColor(255, 255, 255, 0))
-        painter.setBrush(QBrush(glint))
-        painter.setClipRect(QRectF(ball.x(), ball.y(),
-                                      ball.width(), ball.height() / 2))
-        painter.drawEllipse(ball)
-        painter.setClipping(False)
-
-    # Horizontal divider band
-    band_h = max(2.0, size * 0.07)
-    painter.setBrush(line_color)
-    painter.setPen(Qt.NoPen)
-    painter.drawRect(QRectF(ball.x(), ball.center().y() - band_h / 2,
-                              ball.width(), band_h))
-
-    # Outer ring
-    painter.setBrush(Qt.NoBrush)
-    painter.setPen(QPen(line_color, max(2.0, size * 0.045)))
-    painter.drawEllipse(ball)
-
-    # Center button — outer ink, inner white, inner ink ring
-    btn_outer = size * 0.22
-    painter.setPen(Qt.NoPen)
-    painter.setBrush(line_color)
-    painter.drawEllipse(QRectF(cx - btn_outer / 2, cy - btn_outer / 2,
-                                  btn_outer, btn_outer))
-
-    btn_mid = size * 0.16
+    # QR plate
+    qr_size = card_w * 0.62
+    qr = QRectF(cx - qr_size / 2,
+                card.top() + card_h * 0.16,
+                qr_size, qr_size)
+    qr_corner = qr_size * 0.10
     painter.setBrush(QColor("#FFFFFF"))
-    painter.drawEllipse(QRectF(cx - btn_mid / 2, cy - btn_mid / 2,
-                                  btn_mid, btn_mid))
+    painter.drawRoundedRect(qr, qr_corner, qr_corner)
 
-    btn_inner = size * 0.10
-    painter.setBrush(line_color)
-    painter.drawEllipse(QRectF(cx - btn_inner / 2, cy - btn_inner / 2,
-                                  btn_inner, btn_inner))
+    # QR modules
+    modules = len(_QR_GRID)
+    qr_pad = qr_size * 0.10
+    cell = (qr_size - 2 * qr_pad) / modules
+    painter.setBrush(ink)
+    for r in range(modules):
+        for c in range(modules):
+            if _QR_GRID[r][c]:
+                painter.drawRect(QRectF(
+                    qr.left() + qr_pad + c * cell,
+                    qr.top() + qr_pad + r * cell,
+                    cell, cell))
 
-    btn_core = size * 0.05
-    painter.setBrush(QColor("#FFFFFF"))
-    painter.drawEllipse(QRectF(cx - btn_core / 2, cy - btn_core / 2,
-                                  btn_core, btn_core))
+    # Energy bar
+    band_w = card_w * 0.50
+    band_h = max(2.0, card_h * 0.06)
+    band = QRectF(cx - band_w / 2,
+                  card.bottom() - inset - band_h - card_h * 0.05,
+                  band_w, band_h)
+    band_color = QColor(0xA6, 0xA6, 0xA6) if monochrome else QColor(PALETTE["yellow"])
+    painter.setBrush(band_color)
+    painter.setPen(QPen(ink, max(1.0, dim * 0.012)))
+    painter.drawRoundedRect(band, band_h / 2, band_h / 2)
 
     painter.restore()
 
@@ -703,6 +713,6 @@ def build_app_icon(size: int = 256) -> QIcon:
     pix = QPixmap(size, size)
     pix.fill(Qt.transparent)
     painter = QPainter(pix)
-    paint_pokeball(painter, QRectF(0, 0, size, size))
+    paint_card_qr(painter, QRectF(0, 0, size, size))
     painter.end()
     return QIcon(pix)

@@ -33,7 +33,7 @@ struct RootView: View {
     private var topBar: some View {
         VStack(spacing: 0) {
             HStack(spacing: 12) {
-                PokeballIcon()
+                CardQRIcon()
                     .frame(width: 36, height: 36)
                     .shadow(color: Palette.red.opacity(0.30), radius: 10, x: 0, y: 0)
                 HStack(spacing: 0) {

@@ -7,7 +7,7 @@ from PyQt5.QtWidgets import (QDialog, QDoubleSpinBox, QFrame, QGridLayout,
                               QSpinBox, QVBoxLayout, QWidget)
 
 from src.config import Config
-from src.theme import FONT_BODY, FONT_DISPLAY, FONT_MONO, color, paint_pokeball
+from src.theme import FONT_BODY, FONT_DISPLAY, FONT_MONO, color, paint_card_qr
 from src.widgets import Moon, Toggle
 
 
@@ -257,7 +257,7 @@ class AboutDialog(QDialog):
         pix = QPixmap(52, 52)
         pix.fill(Qt.transparent)
         painter = QPainter(pix)
-        paint_pokeball(painter, QRectF(0, 0, 52, 52))
+        paint_card_qr(painter, QRectF(0, 0, 52, 52))
         painter.end()
         ball.setPixmap(pix)
         hero.addWidget(ball, 0, Qt.AlignTop)
